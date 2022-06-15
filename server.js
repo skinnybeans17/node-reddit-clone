@@ -13,11 +13,15 @@ app.set('views', './views');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+require('./data/reddit-db');
+
 app.get('/', (req, res) => {
     res.render('home');
 });
 
 require('./controllers/posts')(app);
-require('./data/reddit-db');
 
-app.listen(3000); 
+
+app.listen(3000);
+
+module.exports = app;
