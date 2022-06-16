@@ -1,6 +1,27 @@
+<a href="/"> ← Back to Home</a>
+
 <div class="row">
-  <div class="col-sm-6 col-sm-offset-3">
-    <a href="{{post.url}}" class="lead">{{post.title}}</a>
-    <p>{{post.summary}}</p>
-  </div>
+    <div class="col-sm-6 offset-sm-3">
+        <a href="{{post.url}}" class="lead">{{post.title}}</a>
+        <small>{{post.createdAtFormatted}}</small>
+        <p>{{post.author.username}}</p>
+        <p>{{post.summary}}</p>
+        
+        <form action="/posts/{{post._id}}/comments" method="post">
+            <textarea class='form-control mb-3' name="content" placeholder="Comment"></textarea>
+            <div class="text-right mb-3">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+        <ul class="list-group list-group-flush">
+            {{#each post.comments}}
+                <li class="list-group-item">
+                    <p>{{this.content}}</p>
+                    <div class="d-flex">
+                        <p class="ms-auto">{{this.author.username}}</p>
+                    </div>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
 </div>

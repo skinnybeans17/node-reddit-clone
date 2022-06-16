@@ -1,0 +1,28 @@
+<a href="/"> ← Back to Home</a>
+
+<div class="row">
+    <div class="col-sm-4 offset-sm-4">
+        <form action="/posts/new" method="post">
+            <legend>New Post</legend>
+            <div class="mb-3 form-group">
+                <label for="post-title" class="form-label">Title</label>
+                <input type="text" name="title" class="form-control" id="post-title" placeholder="Title">
+            </div>
+            <div class="mb-3 form-group">
+                <label for="post-url" class="form-label">Url</label>
+                <input type="url" name="url" class="form-control" id="post-url" placeholder="https://www.google.com">
+            </div>
+            <div class="mb-3 form-group">
+                <label for="post-summary" class="form-label">Summary</label>
+                <textarea name="summary" class="form-control" id="post-summary" placeholder="Summary" ></textarea>
+            </div>
+            <div class="mb-3 form-group">
+                <label for="post-subreddit" class="form-label">Subreddit</label>
+                <input name="subreddit" type="text" class="form-control" id="post-subreddit" placeholder="Subreddit">
+            </div>
+            <div class="text-right">
+                <button type="submit" class="btn btn-primary">Create Post</button>
+            </div>
+        </form>
+    </div>
+</div>
