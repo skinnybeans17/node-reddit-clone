@@ -56,4 +56,8 @@ module.exports = (app) => {
             console.log(err);
         });
     })
+    app.get('/logout', (req, res) => {
+        res.clearCookie('nToken');
+        return res.redirect('/');
+    });
 };
