@@ -1,39 +1,56 @@
-// test/auth.js
 const chai = require('chai');
+const jwt = require('jsonwebtoken');
 const chaiHttp = require('chai-http');
-const { describe, it } = require('mocha');
-const app = require('../server');
-
-const should = chai.should();
 
 chai.use(chaiHttp);
 
-// Agent that will keep track of our cookies
-const agent = chai.request.agent(app);
+module.exports = (app) => {
+    const User = require('../models/user');
 
-const User = require('../models/user');
-it('should not be able to login if they have not registered', function (done) {
-    agent.post('/login', { email: 'wrong@example.com', password: 'nope' }).end(function (err, res) {
-      res.should.have.status(401);
-      done();
-    });
-  });
+    // SIGN UP POST
+    app.post('/sign-up', (req, res) => {
+    // Create User and JWT
+    const user = new User(req.body);
 
-describe('User', function () {
-  // TESTS WILL GO HERE.
-});
-
-// signup
-it('should be able to signup', function (done) {
-    User.findOneAndRemove({ username: 'testone' }, function() {
-      agent
-        .post('/sign-up')
-        .send({ username: 'testone', password: 'password' })
-        .end(function (err, res) {
-          console.log(res.body);
-          res.should.have.status(200);
-          agent.should.have.cookie('nToken');
-          done();
+    user
+        .save()
+        .then((user) => {
+        const token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: '60 days' });
+        return res.redirect('/');
+        })
+        .catch((err) => {
+        console.log(err.message);
+        return res.status(400).send({ err });
         });
     });
-  });
+
+    // LOGIN
+    app.post('/login', (req, res) => {
+        const { username, password } = req.body;
+        // Find this user name
+        User.findOne({ username }, 'username password')
+        .then((user) => {
+            if (!user) {
+            // User not found
+            return res.status(401).send({ message: 'Wrong Username or Password' });
+            }
+            // Check the password
+            user.comparePassword(password, (err, isMatch) => {
+            if (!isMatch) {
+                // Password does not match
+                return res.status(401).send({ message: 'Wrong Username or password' });
+            }
+            // Create a token
+            const token = jwt.sign({ _id: user._id, username: user.username }, process.env.SECRET, {
+                expiresIn: '60 days',
+            });
+            // Set a cookie and redirect to root
+            res.cookie('nToken', token, { maxAge: 900000, httpOnly: true });
+            return res.redirect('/');
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+    })
+};
