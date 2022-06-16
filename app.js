@@ -11,7 +11,6 @@ app.set('views', './views');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
 require('./data/reddit-db');
 
 app.get('/', (req, res) => {
