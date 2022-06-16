@@ -7,23 +7,26 @@ chai.use(chaiHttp);
 module.exports = (app) => {
     const User = require('../models/user');
 
+    app.get('/sign-up', (req, res) => {
+        return res.render('sign-up')
+    })
     // SIGN UP POST
     app.post('/sign-up', (req, res) => {
-    // Create User and JWT
-    const user = new User(req.body);
+        // Create User and JWT
+        const user = new User(req.body);
 
-    user
-        .save()
-        .then((user) => {
-        const token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: '60 days' });
-        return res.redirect('/');
-        })
-        .catch((err) => {
-        console.log(err.message);
-        return res.status(400).send({ err });
+        user.save().then((user) => {
+            const token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: '60 days' });
+            return res.redirect('/');
+        }).catch((err) => {
+            console.log(err.message);
+            return res.status(400).send({ err });
         });
     });
 
+    app.get('/login', (req, res) => {
+        return res.render('login')
+    })
     // LOGIN
     app.post('/login', (req, res) => {
         const { username, password } = req.body;
