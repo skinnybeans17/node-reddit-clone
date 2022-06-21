@@ -32,11 +32,11 @@ module.exports = (app) => {
         const { username, password } = req.body;
         // Find this user name
         User.findOne({ username }, 'username password')
-        .then((user) => {
-            if (!user) {
-            // User not found
-            return res.status(401).send({ message: 'Wrong Username or Password' });
-            }
+            .then((user) => {
+                if (!user) {
+                    // User not found
+                    return res.status(401).send({ message: 'Wrong Username or Password' });
+                }
             // Check the password
             user.comparePassword(password, (err, isMatch) => {
             if (!isMatch) {
