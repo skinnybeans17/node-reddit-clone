@@ -14,6 +14,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser())
 
+app.use(express.static('public'));
+
 require('./data/reddit-db');
 
 const checkAuth = require('./middleware/checkAuth');
@@ -25,6 +27,7 @@ const auth = require('./controllers/auth.js')(app);
 app.get('/', (req, res) => {
     res.render('home');
 });
+
 app.listen(3000);
 
 module.exports = app;

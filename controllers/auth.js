@@ -1,15 +1,8 @@
-const chai = require('chai');
 const jwt = require('jsonwebtoken');
-const chaiHttp = require('chai-http');
-
-chai.use(chaiHttp);
+const User = require('../models/user')
 
 module.exports = (app) => {
-    const User = require('../models/user');
-
-    app.get('/sign-up', (req, res) => {
-        return res.render('sign-up')
-    })
+    app.get('/sign-up', (req, res) => res.render('sign-up'));
     // SIGN UP POST
     app.post('/sign-up', (req, res) => {
         // Create User and JWT
@@ -24,9 +17,7 @@ module.exports = (app) => {
         });
     });
 
-    app.get('/login', (req, res) => {
-        return res.render('login')
-    })
+    app.get('/login', (req, res) => res.render('login'));
     // LOGIN
     app.post('/login', (req, res) => {
         const { username, password } = req.body;
