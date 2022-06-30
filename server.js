@@ -23,6 +23,8 @@ app.use(checkAuth);
 const posts = require('./controllers/posts')(app);
 const comments = require('./controllers/comments.js')(app);
 const auth = require('./controllers/auth.js')(app);
+const users = require('./controllers/users.js')(app);
+const replies = require('./controllers/replies.js')(app);
 
 app.get('/', (req, res) => {
     res.render('home');
