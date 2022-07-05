@@ -6,7 +6,7 @@ module.exports = (app) => {
     app.post('/posts/:postId/comments', (req, res) => {
       const comment = new Comment(req.body);
       comment.author = req.user._id;
-      comment.post = req.params.postId
+      comment.post = req.params.postId;
       comment
         .save()
         .then(() => Promise.all([
@@ -23,4 +23,4 @@ module.exports = (app) => {
           console.log(err);
         });
     });
-  };
+};

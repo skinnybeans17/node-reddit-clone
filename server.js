@@ -27,7 +27,7 @@ const users = require('./controllers/users.js')(app);
 const replies = require('./controllers/replies.js')(app);
 
 app.get('/', (req, res) => {
-    res.render('home');
+    res.render('posts-index');
 });
 
 app.listen(3000);

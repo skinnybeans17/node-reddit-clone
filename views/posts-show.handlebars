@@ -16,10 +16,7 @@
         <ul class="list-group list-group-flush">
             {{#each post.comments}}
                 <li class="list-group-item">
-                    <p>{{this.content}}</p>
-                    <div class="d-flex">
-                        <p class="ms-auto">{{this.author.username}}</p>
-                    </div>
+                    {{> comment comment=this postId=../post._id}}
                 </li>
             {{/each}}
         </ul>

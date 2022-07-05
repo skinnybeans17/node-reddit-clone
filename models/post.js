@@ -1,16 +1,18 @@
 const { Schema, model } = require('mongoose');
 const Populate = require('../util/autopopulate');
 
-const commentSchema = new Schema({
-  content: { type: String, required: true },
-  author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+const postSchema = new Schema({
+    title:     { type: String, required: true },
+    url:       { type: String, required: true },
+    summary:   { type: String, required: true },
+    subreddit: { type: String, required: true },
+    comments:  [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+    author:    { type: Schema.Types.ObjectId, ref: 'User', required: true },
 }, { timestamps: true });
 
-commentSchema
-  .pre('findOne', Populate('author'))
-  .pre('find', Populate('author'))
-  .pre('findOne', Populate('comments'))
-  .pre('find', Populate('comments'));
+// Always populate the author field
+postSchema
+	.pre('findOne', Populate('author'))
+	.pre('find', Populate('author'));
 
-module.exports = model('Post', commentSchema);
+module.exports = model('Post', postSchema);
